@@ -18,8 +18,13 @@ class bigint
         bigint &operator = (const bigint &src);
         ~bigint();
 
-        bigint operator << (const bigint  &obj) const;
-        bigint operator >> (const bigint  &obj) const;
+        std::string GetResult(void) const;
+
+        bigint operator + (const bigint &other) const;
+        bigint &operator += (const bigint &other);
+
 };
+
+std::ostream &operator << (std::ostream &os, const bigint &src);
 
 #endif
