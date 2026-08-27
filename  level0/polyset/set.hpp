@@ -5,15 +5,15 @@
 class set
 {
     private:
-        searchable_bag &_bag;
+    searchable_bag& _bag;
 
     public:
         set() = delete;
-        set(searchable_bag &bag);
-        set(const set &copy) = delete;
-        set &operator = (const set &src) = delete;
+        set(const set& copy) = delete;
+        set &operator = (const set& src) = delete;
         ~set();
 
+        set(searchable_bag& bag);
         const searchable_bag &get_bag();
 
         bool has(int) const;

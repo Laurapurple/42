@@ -15,14 +15,13 @@ bool set::has(int value) const
 
 void set::insert (int value)
 {
-    if ((!this->has(value)))
-        _bag.insert(value);
+    _bag.insert(value);
 }
 
 void set::insert (int *data, int size)
 {
     for(int i = 0; i < size; i++)
-        insert(data[i]);
+        this->insert(data[i]);
 }
 
 void set::print()
