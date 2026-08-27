@@ -13,22 +13,22 @@ bigint &bigint::operator = (const bigint &src)
 
 bigint::~bigint(){}
 
-bigint bigint::operator << (const bigint &obj) const
+std::string bigint::GetResult()const
 {
-    bigint tmp;
-    std::stringstream ss(obj._result);
-    unsigned int n;
-    ss >> n;
-    tmp = (*this) << n;
-    return tmp;
+    return(this->_result);
 }
 
-bigint bigint::operator << (const bigint &obj) const
+// bigint bigint::operator + (const bigint &src) const
+// {
+//     bigint tmp(*this);
+//     tmp += src;
+//     return (tmp);
+// }
+
+
+
+std::ostream &operator << (std::ostream &os, const bigint &src)
 {
-    bigint tmp;
-    std::stringstream ss(obj._result);
-    unsigned int n;
-    ss << n;
-    tmp = (*this) >> n;
-    return tmp;
+    os << src.GetResult();
+    return (os);
 }
