@@ -13,6 +13,7 @@ bigint &bigint::operator = (const bigint &src)
 
 bigint::~bigint(){}
 
+<<<<<<< HEAD
 std::string bigint::GetResult()const
 {
     return(this->_result);
@@ -32,3 +33,22 @@ std::ostream &operator << (std::ostream &os, const bigint &src)
     os << src.GetResult();
     return (os);
 }
+=======
+std::string bigint::GetResult() const
+{
+    return (this->_result);
+}
+
+bigint bigint::operator + (const bigint &other) const
+{
+    bigint tmp = *this;
+    tmp += other;
+    return (tmp);
+}
+
+std::ostream &operator << (std::ostream &os, const bigint &src)
+{
+    std::cout << src.GetResult() << std::endl;
+    return (os);
+}
+>>>>>>> 9367fa7b4ce3520b0432109b1a9afd1d8b930b44

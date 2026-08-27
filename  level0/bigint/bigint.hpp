@@ -18,6 +18,7 @@ class bigint
         bigint &operator = (const bigint &src);
         ~bigint();
 
+<<<<<<< HEAD
         std::string GetResult() const;
 
         //+ +=
@@ -29,6 +30,12 @@ class bigint
         bigint operator ++(int);
 
         
+=======
+        std::string GetResult(void) const;
+
+        bigint operator + (const bigint &other) const;
+        bigint &operator += (const bigint &other);
+>>>>>>> 9367fa7b4ce3520b0432109b1a9afd1d8b930b44
 
 };
 
