@@ -6,7 +6,7 @@
 /*   By: lbouchar <lbouchar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/18 11:16:47 by lbouchar          #+#    #+#             */
-/*   Updated: 2026/08/20 12:56:22 by lbouchar         ###   ########.fr       */
+/*   Updated: 2026/09/07 15:03:31 by lbouchar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ vect2 &vect2::operator ++()
 
 vect2 &vect2::operator --()
 {
-    this->_x += 1;
-    this->_y += 1;
+    this->_x -= 1;
+    this->_y -= 1;
     return (*this);
 }
 
