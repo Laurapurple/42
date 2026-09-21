@@ -1,16 +1,17 @@
 #include "bsq.h"
 
-void free_map(t_bsq *bsq)
+void free_map(char **map)
 {
-    if (bsq->map)
+    int i = 0;
+    if (map)
     {
-        for (int i = 0; i < bsq->height + 1 ; i++)
+        while (map[i])
         {
-            if (bsq->map[i])
-                free(bsq->map[i]);
+            free(map[i]);
+            i++;
         }
     }
-    free(bsq->map);
+    free(map);
 }
 
 int ft_isprint(char c)
@@ -24,6 +25,7 @@ void print_map(t_bsq *bsq)
 {
     for (int i = 0; i < bsq->height; i++)
         fprintf(stdout, bsq->map[i]);
+    fprintf(stdout, "\n");
 }
 
 int load_first_line(FILE *file, t_bsq *bsq)
@@ -37,6 +39,7 @@ int load_first_line(FILE *file, t_bsq *bsq)
         return 0;
     if (!ft_isprint(bsq->empty) || !ft_isprint(bsq->full) || !ft_isprint(bsq->obstacle))
         return 0;
+    bsq->width = 0;
     return 1;
 }
 
@@ -45,7 +48,7 @@ int load_map(FILE *file, t_bsq *bsq)
     char *line = NULL;
     size_t read, len;
 
-    bsq->map = (char**)malloc((bsq->height + 1) * (sizeof(char *)));
+    bsq->map = malloc((bsq->height + 1) * (sizeof(char *)));
     if (!bsq->map)
         return 0;
 
@@ -55,24 +58,67 @@ int load_map(FILE *file, t_bsq *bsq)
         free(line);
         return 0;
     }
-
     for (int i = 0; i < bsq->height; i++)
     {
         int read = getline(&line, &len, file);
-        bsq->map[i] = (char *)malloc((read + 1) * sizeof(char));
+        bsq->map[i] = malloc((read + 1) * sizeof(char));
         if (read <= 0)
         {
             free(line);
-            free_map(bsq);
+            free_map(bsq->map);
             return 0;
         }
         for (int j = 0; j < read; j++)
             bsq->map[i][j] = line[j];
-        bsq->map[i][read] = 0;
+        bsq->map[i][read] = '\0';
     }
-    bsq->map[bsq->height] = 0;
+    bsq->map[bsq->height] = '\0';
     free(line);
     return 1;
+}
+
+int check_map(t_bsq *bsq)
+{
+    int i = 0;
+    while (bsq->map[0][i] != '\n' && bsq->map[0][i] != '\0')
+    {
+        bsq->width++;
+        i++;
+    }
+    for (int j = 1; j < bsq->height; j++)
+    {
+        int len = 0;
+        while (bsq->map[j][len] != '\n' && bsq->map[j][len] != '\0')
+        {
+            if (bsq->map[j][len] != bsq->empty || bsq->map[j][len] != bsq->obstacle)
+                len++;
+        }
+        if (bsq->width != len)
+            return 0;
+    }
+    if (bsq->width < 0)
+        return 0;
+    return 1;
+}
+
+int solver(t_bsq *bsq)
+{
+    char **tmp;
+    tmp = malloc((bsq->height + 1) * (sizeof(char *)));
+    if (!tmp)
+        return 0;
+    for (int i = 0; i < bsq->height; i++)
+    {
+        for (int j = 0; i < bsq->width; j++)
+        tmp[i] = malloc((bsq->width + 1) * sizeof(char));
+        if (!tmp[i])
+        {
+            free_map(tmp);
+            return 0;
+        }
+        tmp[i][bsq->width] = '\0';
+    }
+    tmp[bsq->height] = '\0';
 }
 
 int bsq(FILE *file)
@@ -82,8 +128,12 @@ int bsq(FILE *file)
         return 0;
     if (!load_map(file, &bsq))
         return 0;
-    if (!check_map(&bsq));
+    if (!check_map(&bsq))
+    {
+        free_map(bsq.map);
         return 0;
+    }
+    
     print_map(&bsq);
     free_map(&bsq);
     return 1;
